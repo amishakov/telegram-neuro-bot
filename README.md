@@ -9,7 +9,7 @@
   
 ### Установка:
 ```sh
-https://github.com/l1v0n1/telegram-neuro-bot.git
+git clone https://github.com/l1v0n1/telegram-neuro-bot.git
 
 cd telegram-neuro-bot
 
