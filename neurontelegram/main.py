@@ -5,7 +5,7 @@ import random
 import mc
 
 
-API_TOKEN = '123' # токен бота
+API_TOKEN = '123' # telegram bot token
 
 # Логи в консоль
 logging.basicConfig(level=logging.INFO)
