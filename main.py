@@ -88,8 +88,8 @@ async def sov(message: types.Message):
 
 	with open(chat_path, encoding="utf8") as f:
 		text_lines = len(f.readlines())
-	demorpic = random.randint(0,5)
-	if demorpic in [1,2,3,4]:
+	ra = random.randint(0,5)
+	if ra in [1,2,3,4]:
 		if text_lines >= 4:
 			with open(chat_path, encoding="utf8") as file:
 				texts = file.read().splitlines()
