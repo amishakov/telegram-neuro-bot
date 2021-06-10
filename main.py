@@ -5,12 +5,12 @@ import random
 import mc
 
 
-API_TOKEN = '123' # токен бота
+API_TOKEN = '123' # telegram bot token 
 
-# Логи в консоль
+# logs
 logging.basicConfig(level=logging.INFO)
 
-# Инициализация
+# initialization
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
@@ -27,7 +27,7 @@ async def new_chat(message: types.Message):
 			await message.answer(f"Вы добавили меня в чат, мои команды /help\nНе забудьте выдать мне права администратора!")
 
 
-@dp.message_handler(commands=['start'])
+@dp.message_handler(commands=['start'], chat_type=types.ChatType.PRIVATE)
 async def start(message: types.Message):
 	await message.answer(f'Привет, {message.from_user.first_name}, я работаю только в чатах.')
 
@@ -38,9 +38,7 @@ async def react(message: types.Message):
 
 @dp.message_handler(commands=['gen'])
 async def gen(message: types.Message):
-	text_length = len(message.text)
 	chat_path = f"{dir_to_txt}{message.chat.id}.txt"
-
 	with open(chat_path, encoding="utf8") as f:
 		text_lines = len(f.readlines())
 
@@ -50,7 +48,10 @@ async def gen(message: types.Message):
 		# Выбираем рандомный текст
 		generator = mc.StringGenerator(samples=texts)
 		random_text = generator.generate_string(attempts=100, validator=mc.util.combine_validators(mc.validators.words_count(minimal=1, maximal=100)))
-		await message.answer(random_text.lower())
+		try:
+			await message.answer(random_text.lower())
+		except:
+			pass
 
 @dp.message_handler(commands=['info'])
 async def info(message: types.Message):
@@ -76,8 +77,6 @@ async def sov(message: types.Message):
 	if (
 		message.text.startswith("http://")
 		or message.text.startswith("https://")
-		or message.text.startswith("vk.com")
-		or message.text.startswith("https://vk.com/")
 		or message.text.startswith("/")
 	):
 		return
@@ -88,24 +87,18 @@ async def sov(message: types.Message):
 
 	with open(chat_path, encoding="utf8") as f:
 		text_lines = len(f.readlines())
-	ra = random.randint(0,5)
-	if ra in [1,2,3,4]:
+	rnd = random.randint(0,5)
+	if rnd == 0:
 		if text_lines >= 4:
 			with open(chat_path, encoding="utf8") as file:
 				texts = file.read().splitlines()
 			# Выбираем рандомный текст
 			generator = mc.StringGenerator(samples=texts)
 			random_text = generator.generate_string(attempts=100, validator=mc.util.combine_validators(mc.validators.words_count(minimal=1, maximal=100)))
-			await message.answer(random_text.lower())
-
-
-
-
-
-
-
-
-
+			try:
+				await message.answer(random_text.lower())
+			except:
+				pass
 
 if __name__ == "__main__":
 	if not os.path.exists("Dialogs/"):
